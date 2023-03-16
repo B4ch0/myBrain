@@ -3,7 +3,12 @@ import { ref } from 'vue'
 
 
 
-const 
+function login(){
+
+    router.push( '/')
+  }
+  
+
 
 
 </script>
@@ -15,7 +20,7 @@ const
     <form>
         <input v-model="email" placeholder="Email" />
         <input v-model="password" placeholder="Password" type="password"/>
-        <button>Submit</button> 
+        <button class="submit" @click="login()">Submit</button> 
         <p>Create new account: </p>
       </form>
   </div>

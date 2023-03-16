@@ -1,4 +1,6 @@
-
+<script setup>
+import router from './router'
+</script>
 <template>
   <div class="container">
     <div class="flex-row mainScreen">
