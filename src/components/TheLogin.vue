@@ -1,11 +1,11 @@
 <script setup>
 import { ref } from 'vue'
 
-defineProps({
-  msg: String,
-})
 
-const count = ref(0)
+
+const 
+
+
 </script>
 
 <template>
@@ -15,7 +15,7 @@ const count = ref(0)
     <form>
         <input v-model="email" placeholder="Email" />
         <input v-model="password" placeholder="Password" type="password"/>
-        <p>Submit</p>
+        <button>Submit</button> 
         <p>Create new account: </p>
       </form>
   </div>

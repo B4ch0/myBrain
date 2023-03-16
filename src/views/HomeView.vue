@@ -4,6 +4,7 @@ import MainScreen from '../components/MainScreen.vue'
 
 <template>
 
-
+<main>
+    <MainScreen /></main>
 
 </template>
