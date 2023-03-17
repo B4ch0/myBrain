@@ -23,7 +23,7 @@ function login(){
         <input v-model="email" placeholder="Email" />
         <input v-model="password" placeholder="Password" type="password"/>
         <button class="submit" @click="login()">Submit</button> 
-        <p>Create new account: </p>
+        <p>Create new account: <router-link to="/register">Register</router-link></p>
       </form>
   </div>
 
