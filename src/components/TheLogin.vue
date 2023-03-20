@@ -1,15 +1,29 @@
 <script setup>
 import { ref } from 'vue'
-import { useRouter} from 'vue-router'
+import { useRouter, useRoute} from 'vue-router'
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useFirebaseAuth } from 'vuefire'
 
 const router = useRouter();
+const route = useRoute();
+const auth = useFirebaseAuth();
+const loading = ref(false)
+
+const email = ref('');
+const password = ref('');
 
 
 function login(){
-
-    router.push( '/')
+  loading.value = true;
+signInWithEmailAndPassword(auth, email.value, password.value)
+  .then((userCredential) => {
+    loading.value = false;
+    router.push(route.query.redirect || '/')
+  })
   }
   
+
+
 
 
 

@@ -12,7 +12,25 @@ const router = createRouter({
       name: 'home',
       component: HomeView,
      
-    }
+    },
+    {
+        path: '/login',
+        name: 'login',
+        component: () => import('../views/LoginView.vue')
+      },
+      {
+        path: '/register',
+        name: 'register',
+        component: () => import('../views/RegisterView.vue')
+      }
 ]
 })
+router.beforeEach(async (to) => {
+  return {
+        query: { 
+        redirect: to.fullPath,
+          },
+        }
+      } )
+
 export default router
