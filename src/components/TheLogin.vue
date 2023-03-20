@@ -13,7 +13,8 @@ const email = ref('');
 const password = ref('');
 
 
-function login(){
+function loginUser(e){
+  e.preventDefault();
   loading.value = true;
 signInWithEmailAndPassword(auth, email.value, password.value)
   .then((userCredential) => {
@@ -36,7 +37,7 @@ signInWithEmailAndPassword(auth, email.value, password.value)
     <form>
         <input v-model="email" placeholder="Email" />
         <input v-model="password" placeholder="Password" type="password"/>
-        <button class="submit" @click="login()">Submit</button> 
+        <button class="submit" @click="loginUser($event)">Submit</button> 
         <p>Create new account: <router-link to="/register">Register</router-link></p>
       </form>
   </div>
