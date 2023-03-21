@@ -1,18 +1,22 @@
 <script setup>
 import { useRouter } from 'vue-router'
+import { signOut } from "firebase/auth";
+import { useFirebaseAuth } from 'vuefire'
+const auth = useFirebaseAuth();
+
 const router = useRouter();
 
 
 function logOut(){
-  
-     //gurnut na login page
-    }
+  signOut(auth).then(() => { router.push('/login')})}
+     
+    
 </script>
 <template>
    <div class="container">
     <div class="flex-row mainScreen">
       <div class="flex-column menu">
-       <p >User: <strong>JA</strong> / <a href="#" @click="logOut()">Log Out</a></p>
+       <p >User: <strong>{{ user }}</strong> / <a href="#" @click="logOut()">Log Out</a></p>
       </div>
     </div>
   </div>

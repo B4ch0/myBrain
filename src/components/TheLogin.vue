@@ -3,12 +3,13 @@ import { ref } from 'vue'
 import { useRouter, useRoute} from 'vue-router'
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useFirebaseAuth } from 'vuefire'
+import VButton from './utils/VButton.vue';
 
 const router = useRouter();
 const route = useRoute();
 const auth = useFirebaseAuth();
 const loading = ref(false)
-
+const errors = ref('')
 const email = ref('');
 const password = ref('');
 
@@ -16,6 +17,7 @@ const password = ref('');
 function loginUser(e){
   e.preventDefault();
   loading.value = true;
+  errors.value = '';
 signInWithEmailAndPassword(auth, email.value, password.value)
   .then((userCredential) => {
     loading.value = false;
@@ -37,7 +39,7 @@ signInWithEmailAndPassword(auth, email.value, password.value)
     <form>
         <input v-model="email" placeholder="Email" />
         <input v-model="password" placeholder="Password" type="password"/>
-        <button class="submit" @click="loginUser($event)">Submit</button> 
+        <VButton :loading="loading" full-width @click="loginUser($event)">Submit</VButton> 
         <p>Create new account: <router-link to="/register">Register</router-link></p>
       </form>
   </div>

@@ -1,15 +1,32 @@
 <script setup>
 import { ref } from 'vue'
-import { useRouter} from 'vue-router'
+import { useRouter , useRoute} from 'vue-router'
+import {createUserWithEmailAndPassword} from "firebase/auth";
+import VButton from './utils/VButton.vue';
+
+
 
 const router = useRouter();
 const email = ref('')
 const password = ref('')
+const route = useRoute();
+const auth = getAuth();
+const loading = ref(false)
+const errors = ref('')
 
-function registerUser(){
 
-    router.push( '/')
-  }
+
+
+function registerUser(e){
+  e.preventDefault();
+  loading.value = true;
+  errors.value = '';
+  createUserWithEmailAndPassword(auth, email.value, password.value)
+  .then((userCredential) => {
+    // Signed in 
+    loading.value = false
+    router.push( route.query.redirect || '/')
+  })}
   
 
 
@@ -22,7 +39,7 @@ function registerUser(){
         <form>
           <input v-model="email" placeholder="Email" />
           <input v-model="password" placeholder="Password" type="password"/>
-          <button class="submit" @click="registerUser()">Submit</button> 
+          <VButton :loading="loading" full-width @click="registerUser($event)">Register</VButton> 
         </form> <p><center><router-link to="/login">Login</router-link></center></p>
       </div>
     </div>
