@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import { getCurrentUser } from 'vuefire'
 
 
 
@@ -25,12 +26,18 @@ const router = createRouter({
       }
 ]
 })
+//check za usera
 router.beforeEach(async (to) => {
+  if (to.meta.requiresAuth){
+    const currentUser = await getCurrentUser()
+      if (!currentUser){
+    
   return {
+    path: '/login',
         query: { 
         redirect: to.fullPath,
           },
         }
-      } )
+      } }})
 
 export default router

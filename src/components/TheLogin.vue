@@ -1,8 +1,8 @@
 <script setup>
-import { ref } from 'vue'
+import { ref , onMounted } from 'vue'
 import { useRouter, useRoute} from 'vue-router'
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { useFirebaseAuth } from 'vuefire'
+import { useFirebaseAuth , getCurrentUser } from 'vuefire'
 import VButton from './utils/VButton.vue';
 
 const router = useRouter();
@@ -10,6 +10,7 @@ const route = useRoute();
 const auth = useFirebaseAuth();
 const loading = ref(false)
 const errors = ref('')
+
 const email = ref('');
 const password = ref('');
 
@@ -29,7 +30,17 @@ errors.value = error.message; });}
 
  
   
+onMounted(async () => {
+  const currentUser = await getCurrentUser()
+  if (currentUser) {
+    const to =
+      route.query.redirect && typeof route.query.redirect === 'string'
+        ? route.query.redirect
+        : '/'
 
+    router.push(to)
+  }
+})
 
 
 
@@ -40,7 +51,7 @@ errors.value = error.message; });}
 <div class="container">
   <div class="flex-column centered">
     <h1>Login</h1>
-    <template>
+    <template v-if="errors">
       <p class="error">{{ errors }}</p>
     </template>
     <form>

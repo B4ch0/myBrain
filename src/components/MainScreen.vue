@@ -1,11 +1,11 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import { signOut } from "firebase/auth";
-import { useFirebaseAuth } from 'vuefire'
+import { useFirebaseAuth, useCurrentUser } from 'vuefire'
 const auth = useFirebaseAuth();
 
 const router = useRouter();
-
+const user = useCurrentUser();
 
 function logOut(){
   signOut(auth).then(() => { router.push('/login')})}
@@ -16,7 +16,7 @@ function logOut(){
    <div class="container">
     <div class="flex-row mainScreen">
       <div class="flex-column menu">
-       <p >User: <strong>{{ user }}</strong> / <a href="#" @click="logOut()">Log Out</a></p>
+       <p >User: <strong>{{ user.mail }}</strong> / <a href="#" @click="logOut()">Log Out</a></p>
       </div>
     </div>
   </div>
@@ -39,5 +39,8 @@ function logOut(){
   padding: 5px 20px 0 25px;
   overflow: scroll;
   max-width: 300px;
+}
+.menu a{
+  color: #fff;
 }
 </style>

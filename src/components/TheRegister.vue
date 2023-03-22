@@ -1,8 +1,9 @@
 <script setup>
-import { ref } from 'vue'
+import { ref , onMounted} from 'vue'
 import { useRouter , useRoute} from 'vue-router'
 import {createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import VButton from './utils/VButton.vue';
+import { useFirebaseAuth , getCurrentUser } from 'vuefire'
 
 
 
@@ -32,7 +33,17 @@ function registerUser(e){
     errors.value = error.message;
   });}
   
+  onMounted(async () => {
+  const currentUser = await getCurrentUser()
+  if (currentUser) {
+    const to =
+      route.query.redirect && typeof route.query.redirect === 'string'
+        ? route.query.redirect
+        : '/'
 
+    router.push(to)
+  }
+})
 
 
 </script>
@@ -40,7 +51,7 @@ function registerUser(e){
     <div class="container">
       <div class="flex-column centered">
         <h1>Register</h1>
-        <template>
+        <template v-if="errors">
       <p class="error">{{ errors }}</p>
     </template>
         <form>
