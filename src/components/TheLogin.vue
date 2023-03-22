@@ -23,7 +23,11 @@ signInWithEmailAndPassword(auth, email.value, password.value)
     loading.value = false;
     router.push(route.query.redirect || '/')
   })
-  }
+  .catch((error)=> {
+loading.value = false;
+errors.value = error.message; });}
+
+ 
   
 
 
@@ -36,6 +40,9 @@ signInWithEmailAndPassword(auth, email.value, password.value)
 <div class="container">
   <div class="flex-column centered">
     <h1>Login</h1>
+    <template>
+      <p class="error">{{ errors }}</p>
+    </template>
     <form>
         <input v-model="email" placeholder="Email" />
         <input v-model="password" placeholder="Password" type="password"/>
@@ -71,5 +78,9 @@ input{
 input:focus {
   border-color: #B5B5B5;
   color: #343030;
+}
+
+.error{
+  color: red;
 }
 </style>

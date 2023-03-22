@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter , useRoute} from 'vue-router'
-import {createUserWithEmailAndPassword} from "firebase/auth";
+import {createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import VButton from './utils/VButton.vue';
 
 
@@ -26,7 +26,11 @@ function registerUser(e){
     // Signed in 
     loading.value = false
     router.push( route.query.redirect || '/')
-  })}
+  })
+  .catch((error) => {
+    loading.value = false;
+    errors.value = error.message;
+  });}
   
 
 
@@ -36,6 +40,9 @@ function registerUser(e){
     <div class="container">
       <div class="flex-column centered">
         <h1>Register</h1>
+        <template>
+      <p class="error">{{ errors }}</p>
+    </template>
         <form>
           <input v-model="email" placeholder="Email" />
           <input v-model="password" placeholder="Password" type="password"/>
@@ -69,4 +76,7 @@ function registerUser(e){
     border-color: #B5B5B5;
     color: #343030;
   }
+  .error{
+  color: red;
+}
   </style>
