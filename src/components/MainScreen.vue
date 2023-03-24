@@ -2,6 +2,7 @@
 import { useRouter } from 'vue-router'
 import { signOut } from "firebase/auth";
 import { useFirebaseAuth, useCurrentUser, useFirestore } from 'vuefire'
+import { collection, addDoc} from "firebase/firestore"; 
 const auth = useFirebaseAuth();
 
 const router = useRouter();
@@ -21,6 +22,10 @@ async function createNotebook(){
   notebookName.value = ""
 }
     
+
+
+
+
 </script>
 <template>
    <div class="container">
