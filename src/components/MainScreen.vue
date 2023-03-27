@@ -3,6 +3,8 @@ import { useRouter } from 'vue-router'
 import { signOut } from "firebase/auth";
 import { useFirebaseAuth, useCurrentUser, useFirestore } from 'vuefire'
 import { collection, addDoc} from "firebase/firestore"; 
+import NoteList from './NoteList.vue';
+
 const auth = useFirebaseAuth();
 
 const router = useRouter();
@@ -40,6 +42,7 @@ async function createNotebook(){
       </div>
     
     </div>
+    <NoteList/>
     </div>
   </div>
 </template>

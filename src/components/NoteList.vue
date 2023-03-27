@@ -21,6 +21,17 @@ async function addNote(){
 }
 
 function selectNote(){
+    clientStore.setCurrentNote(note)
+}
+function deleteNote(note){
+    const notes = clientStore.currentNotebook.notes
+    var index = notes.indexOf(note);
+    notes.splice(index, 1);
+    updateNote();
+    clientStore.setCurrentNote(null)
+  }
+  
+  async function changeNotebookName(){
   
 }
 </script>
@@ -31,8 +42,10 @@ function selectNote(){
 <template >
     <div class="menu">
       <button  class="addNote" @click="addNote()">+</button>
-    </div><div>
-      <button class="selectButton" @click="selectNote()">{{  }}</button>
+      <input @input="changeNotebookName()"/>
+    </div><div class="note" v-for="note in clientStore.currentNotebook?.notes">
+      <button class="selectButton" @click="selectNote()">{{ note }}</button>
+      <button class="deleteButton" @click="deleteNote(note)">🗑</button>
     </div>
   </template>
 
@@ -58,5 +71,19 @@ function selectNote(){
   white-space: nowrap;
   overflow: hidden;
   font-size: 14px;
+}
+
+.note{
+  display: flex;
+  flex-direction: row;
+  text-align: left;
+  border-bottom: 1px solid #e2e2e2;
+}
+.deleteButton{
+  width: 20%;
+  font-size: 20px;
+  font-weight: 700;
+  border-left: 1px solid#e2e2e2;
+  height: 100%;
 }
 </style>
