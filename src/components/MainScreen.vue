@@ -4,12 +4,14 @@ import { signOut } from "firebase/auth";
 import { useFirebaseAuth, useCurrentUser, useFirestore } from 'vuefire'
 import { collection, addDoc} from "firebase/firestore"; 
 import NoteList from './NoteList.vue';
+import NoteEditor from './NoteEditor.vue';
 
 const auth = useFirebaseAuth();
 
 const router = useRouter();
 const user = useCurrentUser();
 const db = useFirestore()
+
 function logOut(){
   signOut(auth).then(() => { router.push('/login')})}
  
@@ -25,10 +27,9 @@ async function createNotebook(){
 }
     
 
-
-
-
 </script>
+
+
 <template>
    <div class="container">
     <div class="flex-row mainScreen">
@@ -42,7 +43,7 @@ async function createNotebook(){
       </div>
     
     </div>
-    <NoteList/>
+    <NoteList/><NoteEditor/>
     </div>
   </div>
 </template>

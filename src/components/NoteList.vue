@@ -14,8 +14,8 @@ async function addNote(){
     const notebookId = notebook.id
     const docRef = doc(collection(db, "notebooks"), notebookId)
     const notes = notebook.notes
-  notes.push({title: name, content: ""})
-  await updateDoc(docRef, {
+    notes.push({title: name, content: ""})
+    await updateDoc(docRef, {
       notes: notes
   });
 }
@@ -31,8 +31,21 @@ function deleteNote(note){
     clientStore.setCurrentNote(null)
   }
   
-  async function changeNotebookName(){
+async function changeNotebookName(){
+  const notebookId = clientStore.currentNotebook.id
+  const docRef = doc(collection(db, "notebooks"), notebookId)
+  const name = clientStore.currentNotebook.name
+  await updateDoc(docRef, {
+      name: name
   
+});}
+async function updateNote(){
+  const notebookId = clientStore.currentNotebook.id
+  const docRef = doc(collection(db, "notebooks"), notebookId)
+  const notes = clientStore.currentNotebook.notes
+  await updateDoc(docRef, {
+      notes: notes
+  });
 }
 </script>
 
@@ -40,13 +53,14 @@ function deleteNote(note){
 
 
 <template >
+  <div class="flex-column list" v-if="clientStore.currentNotebook">
     <div class="menu">
       <button  class="addNote" @click="addNote()">+</button>
-      <input @input="changeNotebookName()"/>
-    </div><div class="note" v-for="note in clientStore.currentNotebook?.notes">
-      <button class="selectButton" @click="selectNote()">{{ note }}</button>
+      <input class="titleInput" @input="changeNotebookName()" v-model="clientStore.currentNotebook.name"/>
+    </div> <div class="note" v-for="note in clientStore.currentNotebook?.notes">
+      <button class="selectButton" @click="selectNote()">{{ note.title }}</button>
       <button class="deleteButton" @click="deleteNote(note)">🗑</button>
-    </div>
+    </div></div>
   </template>
 
   <style>
@@ -85,5 +99,25 @@ function deleteNote(note){
   font-weight: 700;
   border-left: 1px solid#e2e2e2;
   height: 100%;
+}
+input{
+  border: 1px solid #E1E1E1;
+  background: #fff;
+  color: #333;
+  margin-bottom: 0;
+}
+.list{
+  width: 350px;
+}
+.addNote{
+  color: #fff;
+  background: #0f0ade;
+  width: 30px;
+  height: 30px;
+  font-weight: bold;
+  font-size: 20px;
+}
+.note:hover{
+  background-color: #c5c5d8;
 }
 </style>
