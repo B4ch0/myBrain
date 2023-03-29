@@ -1,13 +1,15 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import { signOut } from "firebase/auth";
-import { useFirebaseAuth, useCurrentUser, useFirestore } from 'vuefire'
-import { collection, addDoc} from "firebase/firestore"; 
+import { useFirebaseAuth, useCurrentUser, useFirestore, useCollection } from 'vuefire'
+import { collection, addDoc, query, where} from "firebase/firestore"; 
 import NoteList from './NoteList.vue';
 import NoteEditor from './NoteEditor.vue';
+import { computed } from 'vue'
+import NotebookList from './NotebookList.vue';
 
 const auth = useFirebaseAuth();
-
+const notebooks = useCollection(notebooksQuery)
 const router = useRouter();
 const user = useCurrentUser();
 const db = useFirestore()
@@ -25,8 +27,36 @@ async function createNotebook(){
   });
   notebookName.value = ""
 }
-    
 
+const notebooksQuery = query(
+    collection(db, 'notebooks'),
+    where('user', '==', user.value ? user.value.uid : null)
+  )
+
+const menu = computed(() => {
+  if(!notebooks.value) return {};
+  return nestObjects(notebooks.value);
+})
+function nestObjects(arr) {
+  let tree = [];
+  let lookup = {};
+
+  arr.forEach(obj => {
+    const { id, parent, children, ...rest } = obj;
+    lookup[id] = { id, parent: parent || null, children: [], ...rest };
+  });
+
+  Object.keys(lookup).forEach(id => {
+    const obj = lookup[id];
+    if (obj.parent) {
+      const parent = lookup[obj.parent];
+      parent.children.push(obj);
+    } else {
+      tree.push(obj);
+    }
+  });
+  return tree;
+}
 </script>
 
 
@@ -41,7 +71,7 @@ async function createNotebook(){
         <h2>Notebooks</h2>
         <button class="addIcon" @click="createNotebook()" >+</button>
       </div>
-    
+      <NotebookList :menu="menu"/>
     </div>
     <NoteList/><NoteEditor/>
     </div>

@@ -3,7 +3,7 @@ import { ref , onMounted} from 'vue'
 import { useRouter , useRoute} from 'vue-router'
 import {createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import VButton from './utils/VButton.vue';
-import { useFirebaseAuth , getCurrentUser } from 'vuefire'
+import { getCurrentUser } from 'vuefire'
 
 
 

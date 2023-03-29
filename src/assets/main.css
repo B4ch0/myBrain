@@ -40,10 +40,17 @@ body, html{
     cursor: pointer;
     outline: inherit;
   }
-  
+
 input:focus,
 select:focus,
 textarea:focus,
 button:focus {
     outline: none;
+}
+
+@media (min-width: 1200px) {
+  .container{
+  max-width: 1200px;
+  margin: 0 auto;
+}
 }
