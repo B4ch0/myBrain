@@ -9,7 +9,7 @@ import { computed } from 'vue'
 import NotebookList from './NotebookList.vue';
 
 const auth = useFirebaseAuth();
-const notebooks = useCollection(notebooksQuery)
+
 const router = useRouter();
 const user = useCurrentUser();
 const db = useFirestore()
@@ -36,6 +36,7 @@ const notebooksQuery = query(
     collection(db, 'notebooks'),
     where('user', '==', user.value ? user.value.uid : null)
   )
+const notebooks = useCollection(notebooksQuery)
 
 const menu = computed(() => {
   if(!notebooks.value) return {};
