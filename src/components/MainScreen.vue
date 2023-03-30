@@ -15,7 +15,11 @@ const user = useCurrentUser();
 const db = useFirestore()
 
 function logOut(){
-  signOut(auth).then(() => { router.push('/login')})}
+  signOut(auth).then(() => { router.push('/login')})
+  .catch((error) => {
+    }); 
+
+}
  
 async function createNotebook(){
   const name = prompt("Create notebook", "New note");
@@ -37,6 +41,7 @@ const menu = computed(() => {
   if(!notebooks.value) return {};
   return nestObjects(notebooks.value);
 })
+
 function nestObjects(arr) {
   let tree = [];
   let lookup = {};
