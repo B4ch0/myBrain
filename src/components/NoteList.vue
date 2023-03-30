@@ -20,9 +20,7 @@ async function addNote(){
   });
 }
 
-function selectNote(){
-    clientStore.setCurrentNote(note)
-}
+
 function deleteNote(note){
     const notes = clientStore.currentNotebook.notes
     var index = notes.indexOf(note);
@@ -47,6 +45,10 @@ async function updateNote(){
       notes: notes
   });
 }
+
+function selectNote(note){
+    clientStore.setCurrentNote(note)
+}
 </script>
 
 
@@ -57,13 +59,14 @@ async function updateNote(){
     <div class="menu">
       <button  class="addNote" @click="addNote()">+</button>
       <input class="titleInput" @input="changeNotebookName()" v-model="clientStore.currentNotebook.name"/>
-    </div> <div class="note" v-for="note in clientStore.currentNotebook?.notes">
+    </div> 
+    <div class="note" v-for="note in clientStore.currentNotebook?.notes">
       <button class="selectButton" @click="selectNote()">{{ note.title }}</button>
       <button class="deleteButton" @click="deleteNote(note)">🗑</button>
     </div></div>
   </template>
 
-  <style>
+<style scoped>
 .menu{
   padding: 15px;
   display: flex;
@@ -120,4 +123,9 @@ input{
 .note:hover{
   background-color: #c5c5d8;
 }
+.titleInput{
+  font-weight: bold;
+  font-size: 17px;
+}
+
 </style>

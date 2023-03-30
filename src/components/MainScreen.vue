@@ -1,11 +1,12 @@
 <script setup>
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { signOut } from "firebase/auth";
 import { useFirebaseAuth, useCurrentUser, useFirestore, useCollection } from 'vuefire'
 import { collection, addDoc, query, where} from "firebase/firestore"; 
 import NoteList from './NoteList.vue';
 import NoteEditor from './NoteEditor.vue';
-import { computed } from 'vue'
+
 import NotebookList from './NotebookList.vue';
 
 const auth = useFirebaseAuth();
@@ -21,16 +22,7 @@ function logOut(){
 
 }
  
-async function createNotebook(){
-  const name = prompt("Create notebook", "New note");
-  await addDoc(collection(db, "notebooks"), {
-    user: user.value.uid,
-    name: name,
-    notes: [],
-    children: []
-  });
-  notebookName.value = ""
-}
+
 
 const notebooksQuery = query(
     collection(db, 'notebooks'),
@@ -63,6 +55,16 @@ function nestObjects(arr) {
   });
   return tree;
 }
+async function createNotebook(){
+  const name = prompt("Create notebook", "New note");
+  await addDoc(collection(db, "notebooks"), {
+    user: user.value.uid,
+    name: name,
+    notes: [],
+    children: []
+  });
+  notebookName.value = ""
+}
 </script>
 
 
@@ -71,7 +73,7 @@ function nestObjects(arr) {
     <div class="flex-row mainScreen">
       <div class="flex-column menu">
         <template v-if="user"><div>
-       <p >User: <strong>{{ user.mail }}</strong> / <a href="#" @click="logOut()">Log Out</a></p></div>
+       <p >User: <strong>{{ user.email }}</strong> / <a href="#" @click="logOut()">Log Out</a></p></div>
       </template>
       <div class="flex-row title-menu">
         <h2>Notebooks</h2>
@@ -79,7 +81,8 @@ function nestObjects(arr) {
       </div>
       <NotebookList :menu="menu"/>
     </div>
-    <NoteList/><NoteEditor/>
+    <NoteList/>
+    <NoteEditor/>
     </div>
   </div>
 </template>
